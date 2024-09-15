@@ -35,6 +35,7 @@ function WeatherApp() {
   });
 
   useEffect(() => {
+    // to check for the state of the toggle for light mode and dark mode. Address it accordingly. If it is a real project will have to use redux to store global value so that all can access it.
     if (isDark) {
       document.body.classList.add("dark");
     } else {
@@ -43,16 +44,16 @@ function WeatherApp() {
   }, [isDark]);
 
   const search = async (event, countryCity) => {
-    console.log("input", input);
-    console.log("weather", weather);
+    // main api call to get value from the open weatherAPI.
     event.preventDefault();
     setShowCard(false);
     setWeather({ ...weather, loading: true });
     if (countryCity == null) {
+      // if the value is not taken from the history, it will take from the input.
       countryCity = input;
     }
     const url = "https://api.openweathermap.org/data/2.5/weather";
-    const api_key = cryptography.decrypt(GLOBALVARS.ENCRYPTED_KEY);
+    const api_key = cryptography.decrypt(GLOBALVARS.ENCRYPTED_KEY); // key is encrypted to ensure some level of security.
     await axios
       .get(url, {
         params: {
@@ -62,41 +63,37 @@ function WeatherApp() {
         },
       })
       .then((res) => {
-        setInput("");
-        console.log("res", res);
-        console.log("res.data", res.data);
+        setInput(""); // clear input after searching.
 
-        setWeather({ data: res.data, loading: false, error: false });
-        console.log("weatherHistory", weatherHistory);
-        weatherHistory.push(res.data);
+        setWeather({ data: res.data, loading: false, error: false }); // set the state so that we can reference and display it.
+
+        weatherHistory.push(res.data); // store the historical data, to show on the search history.
         setShowCard(true);
-        console.log(weather);
       })
       .catch((error) => {
         setWeather({ ...weather, data: {}, error: true });
         setInput("");
         setShowCard(false);
-
-        console.log("error", error);
       });
   };
 
   const clear = async (event) => {
+    //to clear the output of the keyed in user.
     setInput("");
   };
   const deleteEntry = async (event, index) => {
     event.preventDefault();
 
-    console.log("delete", index);
     let originalArray = weatherHistory;
-    console.log("originalArray", originalArray);
+
     let newArray = [];
     for (let i = 0; i < originalArray.length; i++) {
+      // loop through all the weather history, identify the right one to delete by the index.
       if (index !== i) {
         newArray.push(originalArray[i]);
       }
     }
-    console.log("newArray", newArray);
+
     setWeatherHistory(newArray);
   };
   return (
@@ -115,7 +112,7 @@ function WeatherApp() {
             <Form.Check // prettier-ignore
               type="switch"
               id="custom-switch"
-              label={isDark ? "🌙" : "🔆"}
+              label={isDark ? "🌙" : "🔆"} // to show the user is light more or dark mode.
               checked={isDark}
               onChange={({ target }) => setIsDark(target.checked)}
             />
