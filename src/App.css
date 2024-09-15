@@ -69,7 +69,7 @@ body.dark {
   text-align: center;
   display: inline-block;
   border: 1px solid;
-  width: 300px;
+  width: 350px;
   height: 370px;
   color: black;
   overflow: hidden;
@@ -92,14 +92,14 @@ body.dark {
   color: #777;
 }
 
-.icon-temp {
+.weatherIcon {
   font-size: 3rem;
   font-weight: 700;
   /* color: black !important;*/
   text-align: center;
 }
 
-.icon-temp-dark {
+.weatherIcon-dark {
   font-size: 3rem;
   font-weight: 700;
   color: white !important;
@@ -109,23 +109,23 @@ th {
   color: black;
 }
 
-.deg {
+.degree {
   font-size: 1.3rem;
   vertical-align: super;
   color: black;
 }
 
-.deg-dark {
+.degree-dark {
   font-size: 1.3rem;
   vertical-align: super;
   color: white;
 }
 
-.des-wind {
+.wind {
   font-weight: 500;
   color: black;
 }
-.des-wind-white {
+.wind-white {
   font-weight: 500;
   color: white;
 }

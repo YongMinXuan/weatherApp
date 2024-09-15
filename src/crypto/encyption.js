@@ -1,6 +1,6 @@
 import SimpleCrypto from "simple-crypto-js";
 import { GLOBALVARS } from "../globalvariable/GLOBALVARS";
-
+//Using library to encrypt with values from global vars to complete encryption.
 const decrypt = (plainText) => {
   var _secretKey = GLOBALVARS.PASSKEY;
   var simpleCrypto = new SimpleCrypto(_secretKey);

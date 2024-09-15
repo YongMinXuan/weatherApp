@@ -20,6 +20,7 @@ import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import { IoTrashBin } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
+import { FaRegFaceSadTear } from "react-icons/fa6";
 
 function WeatherApp() {
   const [isDark, setIsDark] = useState("");
@@ -64,7 +65,14 @@ function WeatherApp() {
       })
       .then((res) => {
         setInput(""); // clear input after searching.
-
+        res.data.dateTime = new Date().toLocaleString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        });
         setWeather({ data: res.data, loading: false, error: false }); // set the state so that we can reference and display it.
 
         weatherHistory.push(res.data); // store the historical data, to show on the search history.
@@ -81,6 +89,7 @@ function WeatherApp() {
     //to clear the output of the keyed in user.
     setInput("");
   };
+
   const deleteEntry = async (event, index) => {
     event.preventDefault();
 
@@ -168,7 +177,7 @@ function WeatherApp() {
               <br />
               <br />
               <span className="error-message">
-                <FontAwesomeIcon icon={faFrown} />
+                <FaRegFaceSadTear />
                 <span style={{ fontSize: "20px" }}>
                   The City/Country that you are looking for does not exist
                 </span>
@@ -181,26 +190,35 @@ function WeatherApp() {
             text={isDark ? "white" : "dark"}
             className="cardWeather"
           >
-            <Card.Header>{new Date().toDateString()}</Card.Header>
+            <Card.Header>
+              {new Date().toLocaleString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              })}
+            </Card.Header>
             <Card.Body className="cardHeader">
               <Card.Title>
                 {weather.data.name}, <span>{weather.data.sys.country}</span>
               </Card.Title>
               <Card.Text>
-                <div className={isDark ? "icon-temp-dark" : "icon-temp"}>
+                <div className={isDark ? "weatherIcon-dark" : "weatherIcon"}>
                   <img
                     className=""
                     src={`https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png`}
                     alt={weather.data.weather[0].description}
                   />
                   {Math.round(weather.data.main.temp)}
-                  <sup className={isDark ? "deg-dark" : "deg"}>°C</sup>
+                  <sup className={isDark ? "degree-dark" : "degree"}>°C</sup>
                 </div>
-                <div className={isDark ? "des-wind-dark" : "des-wind"}>
+                <div className={isDark ? "wind-dark" : "wind"}>
                   <p>{weather.data.weather[0].description.toUpperCase()}</p>
                   <p>Wind Speed: {weather.data.wind.speed}m/s</p>
                 </div>
-                <div className={isDark ? "des-wind-dark" : "des-wind"}>
+                <div className={isDark ? "wind-dark" : "wind"}>
                   <p>{weather.data.weather[0].description.toUpperCase()}</p>
                   <p>Humidity: {weather.data.main.humidity}%</p>
                 </div>
@@ -219,6 +237,7 @@ function WeatherApp() {
               <tr>
                 <th>No.</th>
                 <th>Country/City</th>
+                <th>Time Searched</th>
                 <th>Delete</th>
                 <th>Search Again</th>
               </tr>
@@ -229,6 +248,7 @@ function WeatherApp() {
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{weather.name}</td>
+                    <td>{weather.dateTime}</td>
                     <td>
                       <Button
                         variant="danger"
