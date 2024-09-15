@@ -15,3 +15,4 @@ To Search, Key in country/city search bar. (Search Bar should be able to take bo
 Search History allows user to either search what they have searched before again or delete their history. 
 
 
+API Keys are also encrypted with simple encryption to prevent ppl from misusing.
